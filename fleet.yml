@@ -1,0 +1,23 @@
+---
+apiVersion: v1alpha1
+kind: Fleet
+metadata:
+  name: gitops-demo-fleet
+spec:
+  selector:
+    matchLabels:
+      fleet: gitops-demo-fleet
+  template:
+    metadata:
+      labels:
+        fleet: gitops-demo-fleet
+    spec:
+      os:
+        image: quay.io/redhat/rhde:9.2
+      config:
+        - name: motd-update
+          configType: InlineConfigProviderSpec
+          inline:
+            - path: "/etc/motd"
+              content: "This system is managed by flightctl."
+              mode: 0644
